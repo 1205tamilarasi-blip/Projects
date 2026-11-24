@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+
+    <style>
+        /* Page design */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            margin-top: 30px;
+        }
+
+        /* Form box */
+        .form-container {
+            width: 350px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid black;
+            background-color: white;
+        }
+
+        .form-row {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        label {
+            width: 80px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        input, select {
+            width: 230px;
+            padding: 7px;
+            box-sizing: border-box;
+        }
+
+        /* Save button */
+        #saveBtn {
+            width: 100%;
+            padding: 10px;
+            background-color: #74d6b5;
+            border: 1px solid black;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #saveBtn:hover {
+            background-color: #4caf8a;
+        }
+
+        /* Table */
+        table {
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #eeeeee;
+        }
+
+        /* Delete button */
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>STUDENT FORM</h1>
+
+    <!-- Student Form -->
+    <div class="form-container">
+
+        <div class="form-row">
+            <label>Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+
+        <div class="form-row">
+            <label>Age</label>
+            <input type="number" id="age" placeholder="Enter your age">
+        </div>
+
+        <div class="form-row">
+            <label>Gender</label>
+            <input type="radio" name="gender" value="Male"> Male
+            <input type="radio" name="gender" value="Female"> Female
+        </div>
+
+        <div class="form-row">
+            <label>Course</label>
+            <select id="course">
+                <option value="JavaScript">JavaScript</option>
+                <option value="Python">Python</option>
+                <option value="Java">Java</option>
+                <option value="HTML & CSS">HTML & CSS</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label>E-mail</label>
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+
+        <button id="saveBtn" onclick="saveStudent()">Save</button>
+
+    </div>
+
+    <!-- Student Details Table -->
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>AGE</th>
+                <th>COURSE</th>
+                <th>GENDER</th>
+                <th>EMAIL</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+
+        <tbody id="tableBody">
+            <!-- Student details will appear here -->
+        </tbody>
+    </table>
+
+
+    <script>
+        function saveStudent() {
+
+            // Get values from the form
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let course = document.getElementById("course").value;
+            let email = document.getElementById("email").value;
+
+            // Get selected gender
+            let gender = document.querySelector(
+                'input[name="gender"]:checked'
+            );
+
+            // Check whether all details are entered
+            if (name === "" || age === "" || email === "" || !gender) {
+                alert("Please fill all the details!");
+                return;
+            }
+
+            // Create a new row
+            let table = document.getElementById("tableBody");
+            let newRow = table.insertRow();
+
+            // Add student details to the row
+            newRow.innerHTML = `
+                <td>${name}</td>
+                <td>${age}</td>
+                <td>${course}</td>
+                <td>${gender.value}</td>
+                <td>${email}</td>
+                <td>
+                    <button class="delete-btn" onclick="deleteStudent(this)">
+                        Delete
+                    </button>
+                </td>
+            `;
+
+            // Clear the form after saving
+            document.getElementById("name").value = "";
+            document.getElementById("age").value = "";
+            document.getElementById("email").value = "";
+            document.querySelectorAll('input[name="gender"]').forEach(
+                radio => radio.checked = false
+            );
+        }
+
+        // Function to delete a student row
+        function deleteStudent(button) {
+            button.parentElement.parentElement.remove();
+        }
+    </script>
+
+</body>
+</html>
